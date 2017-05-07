@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+		*{
+			
+			margin: 0;
+		}
+			#frame{
+				border: 1px solid black;
+				width: 800px;
+				height: 200px;
+			}
+			#title{
+				
+				
+			}
+			#t1{
+				width: 800px;
+				border: 1px solid;
+				
+			}
+			#name{
+				position: relative;
+				left: 120px;
+				top: 10px;
+			}
+			#age{
+				position: relative;
+				left: 120px;
+				top: 20px;
+			}
+			#sex{
+				position: relative;
+				left: 200px;
+				top: 30px;
+			}
+			#createbut{
+				position: relative;
+				left: 137px;
+				top: 70px;
+				width: 70px;
+				height: 40px;
+				border-radius: 5px;
+				outline: none;
+				background:orange;
+				cursor: pointer;
+				
+			}
+			#debtn{
+				background: orange;
+				border-radius: 5px;
+				cursor: pointer;
+				width: 60px;
+				height: 30px;
+			}
+			#thead{
+				background: orange;
+			}
+			tr:nth-child(even){
+				background: gainsboro;
+			}
+			#app{
+				display: table;
+				margin: 20px auto;
+			}
+		</style>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div id="frame">
+			<h3 id="title">添加人员</h3>
+			<div id="name" >
+				<label>姓名:</label><input type="text" name="" id="" value="" v-model='newperson.name'/>
+			</div>
+			<div id="age">
+				<label>年龄:</label><input type="text" name="" id="" value="" v-model='newperson.age'/>
+			</div>
+			<select name=""v-model='newperson.sex'id="sex">
+				<option value="男">男</option>
+				<option value="女">女</option>
+			</select>
+			<button v-on:click='addperson'id="createbut">创建</button>
+		</div>
+		<table id="t1"border="" cellspacing="0" cellpadding="6px">
+			<tr id="thead"><th>姓名</th><th>年龄</th><th>性别</th><th>删除</th></tr>
+			<tr v-for='(n,index) in personlist'>
+				<th>{{n.name}}</th>
+				<th>{{n.age}}</th>
+				<th>{{n.sex}}</th>
+				<th><button v-on:click='delectperson(index)' id='debtn'>删除</button></th>
+			</tr>
+		</table>
+		
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		var vm=new Vue({
+			el:'#app',
+			data:{
+				newperson:{
+					name:'',
+					age:'',
+					sex:'男',
+				},
+				personlist:[
+				{name:'小明',age:'12',sex:'男'},
+				{name:'小红',age:'12',sex:'女'},
+				{name:'小驴',age:'12',sex:'男'},
+				{name:'小马',age:'13',sex:'男'}]
+				
+			},
+			methods:{
+				delectperson:function(index){
+					this.personlist.splice(index,1)
+					
+					
+				},
+			addperson:function(){
+				this.personlist.push(this.newperson),
+				this.newperson={name:'',age:'',sex:'男'}
+			}
+			}
+		})
+	</script>
+</html>

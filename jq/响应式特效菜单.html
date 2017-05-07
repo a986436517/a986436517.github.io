@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0px;
+				height: 0px;
+				font-family: "微软雅黑";
+				font-weight: bold;
+				font-size: 30px;
+			}
+			a{
+				text-decoration: none;
+				color: #666;
+			}
+			.tab-box{
+				width: 100%;
+				margin-top: 10px;
+				height: 40px;
+				line-height: 40px;								
+			}
+			.tab-box a{
+				margin-left: 60px;
+			}
+			.content-box{
+				position: relative;
+				width: 100%;
+				background-color:#333d4d ;
+				background-image: linear-gradient(#333d4d,#000);
+				height: 0px;
+				overflow: hidden;
+			}
+			.list-box{
+				width: 500%;
+				position: relative;
+				
+				
+			}
+			.content-list{
+				width: 20%;
+				float: left;
+				position: relative;
+				height: 110px;
+				text-align: center;
+				line-height: 110px;
+			}
+			.mainbox{
+				width: 100%;
+				
+			}
+			.close-btn{
+				position: absolute;
+				height: 20px;
+				width: 100%;
+				bottom: 0px;
+				text-align: center;
+				
+			}
+			img{
+				position: absolute;
+				width: 126px;
+				height: 20px;
+				bottom: 0px;
+				cursor: pointer;
+				background:url(img/5461ba3b0001ee3603840154.jpg.png) no-repeat -13px -117px;
+				
+			}
+			.active{
+				border-top: 5px solid orangered;
+				
+				
+			}
+			.tab-box a:first-child{
+				margin-left: 790px;
+			}
+			#fixbtn{
+				display:hidden;
+				overflow: hidden;
+				
+			}
+			@media only screen and (max-width: 1000px) and (min-width:640px){
+			.tab-box a:first-child{
+				margin-left: 0px;	
+										
+			}
+			.tab-box a{
+				margin-left: 10px;
+			}
+			
+			}
+			@media only screen and (max-width: 640px) {
+				#fixbtn{
+					position: fixed;
+				right: 20px;
+				top: 20px;
+				cursor: pointer;
+				height: 40px;
+				width: 40px;
+					}
+					.tab-box>a {
+						font-size: 20px;
+						background: grey;
+						width: 100%;
+						height: 40px;
+						display: block;
+						color: white;
+						margin-bottom: 10px;
+						margin-left: 0px;
+					}
+					.tab-box{
+						margin-top: 80px;
+						width: 0;
+						
+					}
+					.tab-box>a:first-child{
+						margin-left: 0px;
+					}
+					.content-box{
+						top: -50px;
+					}
+					
+					
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="mainbox">
+			<div class="tab-box">
+				<a href="#">tab1</a>
+				<a href="#">tab2</a>
+				<a href="#">tab3</a>
+				<a href="#">tab4</a>
+				<a href="#">tab5</a>
+			</div>
+			<div class="content-box">
+				<div class="list-box">
+					<div class='content-list'>
+						<a href="#">content1</a>
+					</div>
+					<div class='content-list'>
+						<a href="#">content2</a>
+					</div>
+					<div class='content-list'>
+						<a href="#">content3</a>
+					</div>
+					<div class='content-list'>
+						<a href="#">content4</a>
+					</div>
+					<div class='content-list'>
+						<a href="#">content5</a>
+					</div>
+				</div>
+				<div class="close-btn">
+					<img />
+				</div>
+			</div>
+		</div>
+		<div id="fixbtn">
+			o			
+		</div>
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript">
+			function event(){
+				$('.tab-box a').click(function(){										
+					var listindex=$(this).index();					
+					if($(this).hasClass('active')){
+						$('.content-box').stop().animate({height:'0px'});
+						$('.tab-box a').removeClass('active');
+					}
+					else{
+						if($('.tab-box a:first-child').css('margin-left')=='0px'){
+						$('.content-box').stop().animate({height:'630px'});
+						$(this).addClass('active').siblings().removeClass('active')
+					$('.list-box').animate({left:'-'+100*listindex+'%'});
+						return false
+					}
+					$('.content-box').stop().animate({height:'130px'});
+					
+					$(this).addClass('active').siblings().removeClass('active')
+					$('.list-box').animate({left:'-'+100*listindex+'%'});
+					}
+					
+					
+				});
+				$('img').click(function(){
+					$('.content-box').animate({height:'0px'});
+					$('.tab-box a').removeClass('active');
+				});
+				
+				$('#fixbtn').click(function(){
+				if($('.tab-box').css('width')=='0px'){
+					$('.tab-box').animate({width:'100%'});
+				}else{
+					$('.tab-box').animate({width:'0'});
+					$('.content-box').animate({height:'0'});
+					$('.tab-box a').removeClass('active');
+				}
+					
+				});
+			};event();
+		</script>
+	</body>
+</html>
