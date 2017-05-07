@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0px;
+				padding: 0px;
+				list-style: none;
+				font-family: "微软雅黑";
+			}
+			img{
+				display: block;
+				position: absolute;
+			}
+			li{
+				position: absolute;
+				float: left;
+			}
+			.mainbox{
+				position: relative;
+				margin: 30px auto;
+				width: 1000px;
+				height: 900px;
+				background: ;
+			}
+			ul{
+				position: absolute;
+				left: 250px;
+				top: 150px;
+			}
+			h2{
+				border: 4px solid black;
+				display: inline;
+				padding: 4px 9px;
+				opacity: 0.5;
+				border-radius: 9px;
+				position: absolute;
+				cursor: pointer;
+			}
+			.nextpic{
+				right: 0px;
+				bottom: 70px;
+				padding: 4px 12px;
+			}
+			.autoplay{
+				right:0px;
+				bottom: 20px;
+				padding: 4px 13px;
+			}
+			.reset{
+				right: 0px;
+				bottom: 120px;
+			}
+			h2:hover{
+				opacity: 1;
+			}
+			
+			
+		</style>
+	</head>
+	<body>
+		<div class="mainbox">
+			<ul>
+				<li></li>
+				
+			</ul>
+			<div class="btnbox">
+				<h2 class="nextpic">next</h2>
+				<h2 class="autoplay">play</h2>
+				<h2 class="reset">reset</h2>
+				
+			</div>
+			
+		</div>
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/jquery.transform-0.9.3.min_.js"></script>
+		<script type="text/javascript">
+		var origin=['300px','280px'];
+		var imgall=createimg(['img/10.jpg','img/13.jpg','img/15.jpg','img/16.jpg','img/7.jpg','img/1.jpg','img/6.png','img/9.png',
+			'img/12.png','img/9.png','img/14.png','img/3.png','img/2.jpg','img/5.jpg','img/4.jpg','img/11.png','img/10.jpg','img/13.jpg','img/15.jpg','img/16.jpg','img/7.jpg','img/1.jpg','img/6.png','img/9.png',
+			'img/12.png','img/9.png','img/14.png','img/3.png','img/2.jpg','img/5.jpg','img/4.jpg','img/11.png']);
+			var imgindex=0;
+			var onlyplay=null;			
+			var resetpic=null;
+			
+			function event(){
+			$('.nextpic').click(function(){
+				clearInterval(resetpic);
+				clearInterval(onlyplay);
+				playnext();
+				
+			});
+			 $('.autoplay').click(function(){
+			 	clearInterval(resetpic);
+			 	autoplay();
+			 });
+			 $('.reset').click(function(){
+			 	resetimg();
+			 })
+				
+			};event();
+			
+			function createimg(arr){
+				var imgarr=[];
+				for(var i in arr){
+					imgarr[i]=new Image();
+					imgarr[i].src=arr[i];					
+				}
+				return imgarr;				
+			};
+			
+			function playnext(){
+				var newimg=imgall[imgindex];
+				$('li').append(newimg);				
+				$(newimg).animate({origin:origin,rotate:15*imgindex+'deg'})
+				imgindex++;
+				
+			};
+			
+			function autoplay(){
+				clearInterval(resetpic);
+				clearInterval(onlyplay);
+				playnext();
+				onlyplay=setInterval(function(){
+					playnext()
+				},500)
+				//imgindex=0
+			};
+			
+			function rollbackimg(){
+				if(imgindex>31){					
+					imgindex=31
+				}
+				var img=imgall[imgindex];			    
+				
+					$(img).remove();
+					imgindex--;		
+					if(imgindex<0){
+					imgindex=0
+				}
+			}
+			
+			function resetimg(){
+				clearInterval(resetpic);
+				clearInterval(onlyplay);
+				resetpic=setInterval(function(){
+					rollbackimg();
+				},100)
+				//picindex=imgall.length-1;
+				//imgindex=0
+			}
+			
+			
+			
+		</script>
+	</body>
+</html>

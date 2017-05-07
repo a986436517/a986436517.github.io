@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{margin: 0px;padding: 0px;list-style: none;font-family: "微软雅黑";font-size: 1.1em;}
+		body{
+		
+			}
+		.mainbox{
+			position: relative;
+			height: 650px;
+			width: 1500px;
+			margin:200px auto;
+			overflow: hidden;
+			background:;
+			
+			}
+		.btn{
+			height: 100%;
+			width: 100%;
+			position:absolute;
+			}
+		li{
+			float: left;
+			position: relative;
+			margin-left: -70px;
+			overflow: hidden;
+			width: 300px;
+			height: 240px;
+			border: 30px solid white ;
+			}			
+		ul{
+			position: relative;
+		     top: 110px;
+		     left: 150px;
+			}
+		img{
+			height: 240px;
+			width: 300px;
+			position: absolute;
+			}
+		#play{
+		     opacity: 0.5;
+		     cursor: pointer;
+		     position: absolute;
+		     bottom: 110px;
+		     border:4px solid black;
+		     padding: 2px 8px;
+		     left: 860px;
+		     border-radius: 8px;
+		     }
+	   #play:hover{
+		     opacity: 1;
+		     }
+		.arr{
+			
+			bottom: 0px;
+			position: absolute;
+			opacity: 0.5;
+			font-size: 60px;
+			cursor: pointer;
+			}
+		.arr:hover{
+			opacity: 1;
+			}
+		#left{
+			left: 990px;
+			bottom: 100px;
+		}
+		#right{
+			right: 420px;
+			bottom: 100px;
+		}
+			
+		</style>
+		</head>
+	<body>
+		<div class="mainbox">
+			<div class="btn">
+				<a id="play">play</a>
+				<a id="right"class="arr">&gt;</a>
+				<a id="left"class="arr">&lt;</a>
+				
+			</div>
+				
+			
+			<ul>
+				<li><img src="img/11.png"></li>
+				<li><img src="img/2.jpg"></li>
+				<li><img src="img/5.jpg"></li>
+				<li><img src="img/4.jpg"></li>
+			</ul>
+		</div>
+		<script src="js/jquery-1.7.2.min.js"></script>
+		<script src="js/jquery.transform-0.9.3.min_.js"></script>
+		<script type="text/javascript">
+			$(function(){	
+			var origin=['300px','300px'];
+			var imgorigin=['300px','600px'];
+			var imgall=img([['img/10.jpg','img/13.jpg','img/15.jpg','img/16.jpg'],['img/7.jpg','img/1.jpg','img/6.png','img/9.png'],
+			['img/12.png','img/9.png','img/14.png','img/3.png'],['img/2.jpg','img/5.jpg','img/4.jpg','img/11.png']]);			
+			var first=-15;
+			var next=15;
+			var imgindex=0;
+			var imgang=45;
+			var clickable=true;
+			var autotimer=null;
+			
+			function init(){
+				$('li').transform({origin:origin});
+			$('li').each(function(i){				
+				$(this).transform({rotate:first+i*next+'deg'})
+			});
+			};init();
+			
+			function img(arr){
+				var imgarr=[];
+				for (var i in arr) {
+					imgarr[i]=[]
+					for (var x in arr[i]) {
+						imgarr[i][x]=new Image();
+						imgarr[i][x].src=arr[i][x]						
+					}					
+				}
+				return imgarr};
+			
+			$('#right').click(function(){
+				doanima(1)
+			});
+			$('#left').click(function(){
+				doanima(-1)
+			});
+			
+			function doanima(d){
+				if(clickable==false){return false};
+				clickable=false;
+				imgindex+=d;
+				if(imgindex>imgall.length-1){imgindex=0}
+				else if(imgindex<0){imgindex=imgall.length-1};
+				
+				$('li').each(function(i){
+					var $thisimg=$(this).children('img');
+					var $targetimg=$(imgall[imgindex][i]);
+					var thistime=(d===1)?i*300:(imgall.length-1-i)*300;
+					$(this).append($targetimg);
+					$targetimg.transform({origin:imgorigin,rotate:(0-d)*45+'deg'});
+					$thisimg.transform({origin:imgorigin});
+					
+					
+					setTimeout(function(){
+					//$targetimg.transform({origin:imgorigin,rotate:(0-d)*45+'deg'});
+					$thisimg.animate({rotate:d*imgang+'deg'});
+					$targetimg.animate({rotate:'0deg'},500,function(){
+						$thisimg.remove();
+						if(thistime==((imgall.length-1)*300)){
+							clickable=true;
+						}
+					});
+					},thistime);					
+				})				
+			};
+			
+			$('#play').click(function(){
+				var play='play';
+				var pause='pause';
+				var $this=$(this);
+				if($this.text()=='play'){
+					$this.text(pause);
+					autoplay();
+				}
+				else{
+					$this.text(play);
+					stopplay();
+				}
+			});
+			
+			function autoplay(){
+				clearInterval(autotimer);
+				doanima(1);
+				autotimer=setInterval(function(){
+					doanima(1);
+				},2000)
+			};
+			
+			function stopplay(){
+				clearInterval(autotimer);
+			};
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+})	
+		</script>
+	</body>
+</html>
